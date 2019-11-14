@@ -18,20 +18,6 @@
 
 using namespace std;
 
-class No{       //Nó da Árvore
-public:
-    No(int valor);  //Construtor
-    ~No();          //Destrutor
-    void Pre_Ordem(No *raiz);
-    void Pos_Ordem(No *raiz);
-    void Em_Ordem(No *raiz);
-    bool Busca(int valor, No *raiz);
-    No *Busca_Pai(int valor, No *raiz);
-    bool Remove(int valor, No *raiz);
-    No *Insere(No *raiz, No *n);
-    int dado;
-    No *esq, *dir;
-};
 
 class Arvore{
 public:
@@ -47,6 +33,21 @@ public:
     int qtde;
 };
 
+class No{       //Nó da Árvore
+public:
+    No(int valor);  //Construtor
+    ~No();          //Destrutor
+    void Pre_Ordem(No *raiz);
+    void Pos_Ordem(No *raiz);
+    void Em_Ordem(No *raiz);
+    bool Busca(int valor, No *raiz);
+    No *Busca_Pai(int valor, No *raiz);
+    bool Remove(int valor, No *raiz);
+    bool Remove_Atual(No * atual);
+    No *Insere(No *raiz, No *n);
+    int dado;
+    No *esq, *dir;
+};
 
 #endif /* ARVORE_H */
 

@@ -39,7 +39,10 @@ bool Arvore::Busca(int valor) {
 }
 
 bool Arvore::Remove(int valor) {
-    return raiz->Remove(valor, raiz);
+    if (raiz->Busca(valor, raiz)) {
+        return raiz->Remove(valor, raiz);
+    }
+    return false;
 }
 
 No::No(int valor) {
@@ -101,11 +104,27 @@ bool No::Busca_Pai(int valor, No* raiz) {
     return false;
 }
 
-bool No::Remove(int valor, No *raiz) {
-    if (raiz->Busca(valor, raiz)) {
-//        No * pai =;
+bool No::Remove(int valor, No *raiz, No *Pai) {
+    if (raiz->dado > valor)
+        return raiz->Remove(valor, raiz->esq, raiz);
+    if (raiz->dado < valor)
+        return raiz->Remove(valor, raiz->dir, raiz);
+    
+    if (raiz->dado == valor) {
+        if(raiz->dir == NULL and raiz->esq == NULL){
+            // nenhum filho, apenas remove
+            
+        }
+        if((raiz->dir != NULL and raiz->esq == NULL) or
+           (raiz->dir == NULL and raiz->esq != NULL)){
+            // apenas um filho, remove o nó e coloca o filho no lugar
+        }
+        if(raiz->dir != NULL and raiz->esq != NULL){
+            // o no possui dois filhos, duas opções:
+            //    a) substituir pelo maior nó da sub-arvore esquerda
+            //    b) substituir pelo menor nó da sub-arvore direita
+        }
     }
-    return false;
 }
 
 
