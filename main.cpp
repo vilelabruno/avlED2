@@ -40,6 +40,13 @@ int main(int argc, char** argv) {
     cout << arv->Busca(15) << " ";
     
     
+    arv->Remove(10);
+    
+    
+    arv->Insere(99);
+//    cout << arv->Captura_Maximo();
+    
+    
 //    cout << "Estado inicial da arvore(pos): " << endl;
 //    arv->Pos_Ordem();
 //    cout << endl << endl;

@@ -40,9 +40,13 @@ bool Arvore::Busca(int valor) {
 
 bool Arvore::Remove(int valor) {
     if (raiz->Busca(valor, raiz)) {
-        return raiz->Remove(valor, raiz);
+        return raiz->Remove(valor, raiz, NULL);
     }
     return false;
+}
+
+No * Arvore::Captura_Maximo() {
+    return raiz->Captura_Maximo(raiz, NULL);
 }
 
 No::No(int valor) {
@@ -100,8 +104,18 @@ bool No::Busca(int valor, No *raiz) {
     } else return false;
 }
 
-bool No::Busca_Pai(int valor, No* raiz) {
-    return false;
+No *No::Captura_Maximo(No *raiz, No* maior) {
+    if (raiz) {
+        if (raiz->dado > maior->dado) {
+            Captura_Maximo(raiz->esq, raiz);
+            Captura_Maximo(raiz->dir, raiz);
+        } else {
+            Captura_Maximo(raiz->esq, maior);
+            Captura_Maximo(raiz->dir, maior);
+        }
+    } else {
+        return maior;
+    }
 }
 
 bool No::Remove(int valor, No *raiz, No *Pai) {
@@ -109,25 +123,75 @@ bool No::Remove(int valor, No *raiz, No *Pai) {
         return raiz->Remove(valor, raiz->esq, raiz);
     if (raiz->dado < valor)
         return raiz->Remove(valor, raiz->dir, raiz);
-    
+
     if (raiz->dado == valor) {
-        if(raiz->dir == NULL and raiz->esq == NULL){
-            // nenhum filho, apenas remove
-            
+        if (raiz->dir == NULL and raiz->esq == NULL) {
+            if (raiz->dado > Pai->dado) {
+                // filho dir
+                Pai->dir = NULL; // exclusão
+                return true;
+            } else {
+                // filho esq
+                Pai->esq = NULL;
+                return true;
+            }
         }
-        if((raiz->dir != NULL and raiz->esq == NULL) or
-           (raiz->dir == NULL and raiz->esq != NULL)){
+        if (raiz->dir != NULL and raiz->esq == NULL) {
             // apenas um filho, remove o nó e coloca o filho no lugar
+            if (raiz->dado > Pai->dado) {
+                // filho dir
+                Pai->dir = raiz->dir; // exclusão
+                return true;
+            } else {
+                // filho esq
+                Pai->esq = raiz->dir;
+                return true;
+            }
         }
-        if(raiz->dir != NULL and raiz->esq != NULL){
-            // o no possui dois filhos, duas opções:
-            //    a) substituir pelo maior nó da sub-arvore esquerda
-            //    b) substituir pelo menor nó da sub-arvore direita
+        if (raiz->dir == NULL and raiz->esq != NULL) {
+            // apenas um filho, remove o nó e coloca o filho no lugar
+            if (raiz->dado > Pai->dado) {
+                // filho dir
+                Pai->dir = raiz->esq; // exclusão
+                return true;
+            } else {
+                // filho esq
+                Pai->esq = raiz->esq;
+                return true;
+            }
+        }
+        if (raiz->dir != NULL and raiz->esq != NULL) {
+            // o no possui dois filhos, substituir pelo maior nó da sub-arvore esquerda
+            No *n = raiz->esq; //guarda maior a esquerda
+            No *n_pai = raiz; // guarda pai do maior a esquerda
+            while (n->dir != NULL) {
+                n = n->dir;
+                n_pai = n;
+            }
+            
+            if (Pai == NULL) {
+                // REMOÇÃO DA RAIZ
+//                n->esq = raiz->esq;
+//                n->dir = raiz->dir;
+//                n_pai->dir = NULL;
+            } else {
+                // REMOÇÃO DO MEIO DA ARVORE
+                if (raiz->dado > Pai->dado) {
+                    // filho dir
+                    Remove(n->dado,raiz, Pai);
+                    Pai->dir = n;
+                    n->esq = raiz->esq;
+                    n->dir = raiz->dir;
+                    return true;
+                } else {
+                    // filho esq
+                    Remove(n->dado,raiz, Pai);
+                    Pai->esq = n;
+                    n->esq = raiz->esq;
+                    n->dir = raiz->dir;
+                    return true;
+                }
+            }
         }
     }
 }
-
-
-
-
-
