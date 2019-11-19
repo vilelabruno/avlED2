@@ -34,13 +34,14 @@ int main(int argc, char** argv) {
     arv->Insere(2);
     arv->Insere(7);
     arv->Insere(14);
+    arv->Insere(16);
     arv->Insere(15);
 
     
+    
+    
+    arv->Remove(15);
     cout << arv->Busca(15) << " ";
-    
-    
-    arv->Remove(10);
     
     
     arv->Insere(99);
