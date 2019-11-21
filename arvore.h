@@ -14,6 +14,7 @@
 #ifndef ARVORE_H
 #define ARVORE_H
 
+#include<fstream>
 #include <iostream>
 
 using namespace std;
@@ -48,6 +49,10 @@ public:
     int qtde;
 };
 
+// =============== MANIPULAÇÃO DE ARQUIVOS================================================
 
+bool readFile(std::ifstream &ifile, std::string strFile);
+bool writeFile(ofstream& file, std::string strFile);
+bool writeFileFinal(ofstream& file, string strFile);
 #endif /* ARVORE_H */
 
