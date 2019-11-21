@@ -27,7 +27,7 @@ public:
     void Pos_Ordem(No *raiz);
     void Em_Ordem(No *raiz);
     bool Busca(int valor, No *raiz);
-    No *Captura_Maximo(No *raiz, No *maior);
+    No *Captura_Maximo(No *raiz);
     bool Remove(int valor, No *raiz, No *pai);
     No *Insere(No *raiz, No *n);
     int dado;

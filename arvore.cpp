@@ -36,7 +36,15 @@ void Arvore::Em_Ordem() {
 
 void Arvore::Insere(int valor) {
     No *n = new No(valor);
-    raiz->Insere(raiz, n);
+    if (qtde == 0) {
+        raiz = n;
+        qtde++;
+        return;
+    }
+    if (!Busca(valor)) {
+        qtde++;
+        raiz->Insere(raiz, n);
+    }
 }
 
 bool Arvore::Busca(int valor) {
@@ -51,7 +59,7 @@ bool Arvore::Remove(int valor) {
 }
 
 No * Arvore::Captura_Maximo() {
-    return raiz->Captura_Maximo(raiz, NULL);
+    return raiz->Captura_Maximo(raiz);
 }
 
 No::No(int valor) {
@@ -109,14 +117,15 @@ bool No::Busca(int valor, No *raiz) {
     } else return false;
 }
 
-No *No::Captura_Maximo(No* raiz, No* maior) {
+No *No::Captura_Maximo(No* raiz) {
+    if (raiz->dir == NULL) {
+        return raiz;
+    }
     if (raiz) {
-        if (raiz->dado > maior->dado) {
-            maior = raiz;
-        }
-        return Captura_Maximo(raiz->dir, maior);
+        return Captura_Maximo(raiz->dir);
         //        return Captura_Maximo(raiz->esq, maior);
     }
+
 }
 
 bool No::Remove(int valor, No *raiz, No *pai) {
@@ -127,38 +136,49 @@ bool No::Remove(int valor, No *raiz, No *pai) {
         No *aux = raiz;
         if (raiz->esq == NULL && raiz->dir == NULL) {
             // nao tem filho
-            if(raiz->dado > pai->dado) {
+            if (raiz->dado > pai->dado) {
                 // filho dir
-                pai->dir == NULL;
-            }else{
+                pai->dir = NULL;
+                free(raiz);
+            } else {
                 // filho esq
-                pai->esq == NULL;
+                pai->esq = NULL;
+                free(raiz);
             }
             return true;
         } else if (raiz->dir == NULL) {
             // tem um filho a esquerda
-            raiz = raiz->esq;
-            aux->esq == NULL;
-            free(aux);
-            aux = NULL; // ?
+            if (raiz->dado > pai->dado) {
+                // filho dir
+                pai->dir = raiz->esq;
+                free(raiz);
+            } else {
+                // filho esq
+                pai->esq = raiz->esq;
+                free(raiz);
+            }
             return true;
         } else if (raiz->esq == NULL) {
             // tem um filho a direita
-            raiz = raiz->dir;
-            aux->dir == NULL;
-            free(aux);
-            aux = NULL; // ?
+            if (raiz->dado > pai->dado) {
+                // filho dir
+                pai->dir = raiz->dir;
+                free(raiz);
+            } else {
+                // filho esq
+                pai->esq = raiz->dir;
+                free(raiz);
+            }
             return true;
         } else {
+            //TODO problema qdo no for raiz da arv
             // tem dois filhos
-            aux = Captura_Maximo(raiz->esq, NULL); // TEM QUE VE ESSA PORRA
-            aux->esq = raiz->esq;
-            aux->dir = raiz->dir;
-            raiz->esq = raiz->dir;
-            raiz->dir = NULL;
-            free(raiz);
-            raiz = aux;
-            aux = NULL;
+            aux = Captura_Maximo(raiz->esq); // TEM QUE VE ESSA PORRA
+            int novoDado = aux->dado;
+            raiz->Remove(aux->dado, raiz, pai);
+            free(aux);
+            raiz->dado = novoDado;      
+            
             return true;
         }
     } else if (valor < raiz->dado) {
