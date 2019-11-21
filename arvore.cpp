@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 #include<cstdlib>
+#include<fstream>
+#include <iostream>
+#include <stdbool.h>
+#include <string>
+
 #include"arvore.h"
 
 using namespace std;
@@ -161,4 +166,21 @@ bool No::Remove(int valor, No *raiz, No *pai) {
     } else {
         return Remove(valor, raiz->dir, raiz);
     }
+}
+
+// =============== MANIPULAÇÃO DE ARQUIVOS================================================
+
+bool writeFile(ofstream& file, string strFile) { // Abrir Arquivo para Escrita NO FINAL
+    file.open(strFile, ios::ate | ios::app);
+    return !(file.fail() || !file.is_open() || !file.good());
+}
+
+bool writeFileFinal(ofstream& file, string strFile) { // Abrir Arquivo para Escrita NO COMEÇO
+    file.open(strFile);
+    return !(file.fail() || !file.is_open() || !file.good());
+}
+
+bool readFile(std::ifstream &ifile, std::string strFile) { // Abrir Arquivo para Leitura
+    ifile.open(strFile);
+    return !(ifile.fail() || !ifile.is_open() || !ifile.good());
 }

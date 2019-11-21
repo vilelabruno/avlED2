@@ -24,42 +24,60 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 
+    //Controle de arquivo (Abrindo arquivo e fazendo sua leitura)
+    ofstream outFile;
+    ifstream arvore;
+    bool status;
+    int tam = 0;
+    char op;
+    int dado;
+
     Arvore *arv = new Arvore;
 
-//    arv->Insere(10);
-    arv->raiz = new No(10);
+    status = readFile(arvore, "arquivo.txt");
+    //Teste de abertura de arquivo
+    if (!status) {
+        cout << "Arquivo não pode ser aberto para leitura." << endl;
+        cout << "Programa terminando..." << endl;
+    } else {
+        //Leitura do arquivo
+        while (!arvore.eof()) {
+            arvore >> op;
+            switch (op) {
+                    //inserir, remover, buscar e estado
+                case 'i':
+                {
+                    arvore >> tam;
+                    for (int i = 0; i < tam; i++) {
+                        if (i == 0) {
+                            arvore >> dado;
+                            arv->raiz = new No(dado);
+                        } else {
+                            arvore >> dado;
+                            arv->Insere(dado);
+                        }
+                    }
+                    break;
+                }
+                case 'r':
+                    break;
+                case 'b':
+                {
+                    arvore >> tam;
+                    for (int i = 0; i < tam; i++) {
+                            arvore >> dado;
+                            cout << arv->Busca(dado) << " ";
+                    }
+                        break;
+                }
+                case 'e':
+                    break;
+                default:
+                    break;
+            }
 
-    arv->Insere(5);
-    arv->Insere(18);
-    arv->Insere(2);
-    arv->Insere(7);
-    arv->Insere(14);
-    arv->Insere(16);
-    arv->Insere(15);
-
-    
-    
-    
-    arv->Remove(15);
-    cout << arv->Busca(15) << " ";
-    
-    
-    arv->Insere(99);
-//    cout << arv->Captura_Maximo();
-    
-    
-//    cout << "Estado inicial da arvore(pos): " << endl;
-//    arv->Pos_Ordem();
-//    cout << endl << endl;
-//
-//    cout << "Estado inicial da arvore(pre): " << endl;
-//    arv->Pre_Ordem();
-//    cout << endl << endl;
-//
-//    cout << "Estado inicial da arvore(em): " << endl;
-//    arv->Em_Ordem();
-//    cout << endl;
-
-    return 0;
+        }
+    }
+return 0;
 }
 
