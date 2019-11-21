@@ -169,20 +169,11 @@ bool No::Remove(int valor, No *raiz, No *pai) {
             //TODO problema qdo no for raiz da arv
             // tem dois filhos
             aux = Captura_Maximo(raiz->esq); // TEM QUE VE ESSA PORRA
-            No *noAux = new No(aux->dado);
+            int novoDado = aux->dado;
             raiz->Remove(aux->dado, raiz, pai);
             free(aux);
-            noAux->esq = raiz->esq;
-            noAux->dir = raiz->dir;
-            if (raiz->dado > pai->dado) {
-                // filho dir
-                pai->dir = noAux;
-                free(raiz);
-            } else {
-                // filho esq
-                pai->esq = noAux;
-                free(raiz);
-            }
+            raiz->dado = novoDado;      
+            
             return true;
         }
     } else if (valor < raiz->dado) {

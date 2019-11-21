@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     arv->Insere(4);
 
     
-    cout << arv->Remove(30) << " ";
+    cout << arv->Remove(15) << " ";
 //    cout << arv->Busca(16) << " ";
     
     
