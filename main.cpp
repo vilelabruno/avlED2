@@ -27,10 +27,11 @@ int main(int argc, char** argv) {
     Arvore *arv = new Arvore;
 
 //    arv->Insere(10);
-    arv->raiz = new No(15); //TODO resolve a raiz
+    //arv->raiz = new No(15); //TODO resolve a raiz
 
-    //arv->Insere(15);
+    arv->Insere(15);
     arv->Insere(7);
+    arv->Insere(30);
     arv->Insere(30);
     arv->Insere(31);
     arv->Insere(29);

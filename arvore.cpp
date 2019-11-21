@@ -31,7 +31,15 @@ void Arvore::Em_Ordem() {
 
 void Arvore::Insere(int valor) {
     No *n = new No(valor);
-    raiz->Insere(raiz, n);
+    if (qtde == 0) {
+        raiz = n;
+        qtde++;
+        return;
+    }
+    if (!Busca(valor)) {
+        qtde++;
+        raiz->Insere(raiz, n);
+    }
 }
 
 bool Arvore::Busca(int valor) {
@@ -108,11 +116,11 @@ No *No::Captura_Maximo(No* raiz) {
     if (raiz->dir == NULL) {
         return raiz;
     }
-    if (raiz) { 
+    if (raiz) {
         return Captura_Maximo(raiz->dir);
         //        return Captura_Maximo(raiz->esq, maior);
     }
-    
+
 }
 
 bool No::Remove(int valor, No *raiz, No *pai) {
