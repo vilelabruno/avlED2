@@ -27,21 +27,22 @@ int main(int argc, char** argv) {
     Arvore *arv = new Arvore;
 
 //    arv->Insere(10);
-    arv->raiz = new No(10);
+    arv->raiz = new No(15); //TODO resolve a raiz
 
-    arv->Insere(5);
-    arv->Insere(18);
-    arv->Insere(2);
+    //arv->Insere(15);
     arv->Insere(7);
-    arv->Insere(14);
-    arv->Insere(16);
-    arv->Insere(15);
+    arv->Insere(30);
+    arv->Insere(31);
+    arv->Insere(29);
+    arv->Insere(1);
+    arv->Insere(2);
+    arv->Insere(5);
+    arv->Insere(8);
+    arv->Insere(4);
 
     
-    
-    
-    arv->Remove(15);
-    cout << arv->Busca(15) << " ";
+    cout << arv->Remove(30) << " ";
+//    cout << arv->Busca(16) << " ";
     
     
     arv->Insere(99);
