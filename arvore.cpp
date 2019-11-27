@@ -134,51 +134,52 @@ bool No::Remove(int valor, No *raiz, No *pai) {
     }
     if (valor == raiz->dado) {
         No *aux = raiz;
-        if (raiz->esq == NULL && raiz->dir == NULL) {
-            // nao tem filho
-            if (raiz->dado > pai->dado) {
-                // filho dir
-                pai->dir = NULL;
-                free(raiz);
-            } else {
-                // filho esq
-                pai->esq = NULL;
-                free(raiz);
+        if (raiz->esq == NULL || raiz->dir == NULL) {
+            //delete one child
+            if (raiz->esq == NULL && raiz->dir == NULL) {
+                // nao tem filho
+                if (raiz->dado > pai->dado) {
+                    // filho dir
+                    pai->dir = NULL;
+                    free(raiz);
+                } else {
+                    // filho esq
+                    pai->esq = NULL;
+                    free(raiz);
+                }
+                return true;
+            } else if (raiz->dir == NULL) {
+                // tem um filho a esquerda
+                if (raiz->dado > pai->dado) {
+                    // filho dir
+                    pai->dir = raiz->esq;
+                    free(raiz);
+                } else {
+                    // filho esq
+                    pai->esq = raiz->esq;
+                    free(raiz);
+                }
+                return true;
+            } else if (raiz->esq == NULL) {
+                // tem um filho a direita
+                if (raiz->dado > pai->dado) {
+                    // filho dir
+                    pai->dir = raiz->dir;
+                    free(raiz);
+                } else {
+                    // filho esq
+                    pai->esq = raiz->dir;
+                    free(raiz);
+                }
+                return true;
             }
-            return true;
-        } else if (raiz->dir == NULL) {
-            // tem um filho a esquerda
-            if (raiz->dado > pai->dado) {
-                // filho dir
-                pai->dir = raiz->esq;
-                free(raiz);
-            } else {
-                // filho esq
-                pai->esq = raiz->esq;
-                free(raiz);
-            }
-            return true;
-        } else if (raiz->esq == NULL) {
-            // tem um filho a direita
-            if (raiz->dado > pai->dado) {
-                // filho dir
-                pai->dir = raiz->dir;
-                free(raiz);
-            } else {
-                // filho esq
-                pai->esq = raiz->dir;
-                free(raiz);
-            }
-            return true;
         } else {
             //TODO problema qdo no for raiz da arv
             // tem dois filhos
             aux = Captura_Maximo(raiz->esq); // TEM QUE VE ESSA PORRA
-            int novoDado = aux->dado;
-            raiz->Remove(aux->dado, raiz, pai);
+            raiz->dado = aux->dado;
+            raiz->esq->Remove(aux->dado, raiz->esq, raiz);
             free(aux);
-            raiz->dado = novoDado;      
-            
             return true;
         }
     } else if (valor < raiz->dado) {
@@ -187,6 +188,7 @@ bool No::Remove(int valor, No *raiz, No *pai) {
         return Remove(valor, raiz->dir, raiz);
     }
 }
+
 
 // =============== MANIPULAÇÃO DE ARQUIVOS================================================
 

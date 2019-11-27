@@ -24,59 +24,81 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 
-    //Controle de arquivo (Abrindo arquivo e fazendo sua leitura)
-    ofstream outFile;
-    ifstream arvore;
-    bool status;
-    int tam = 0;
-    char op;
-    int dado;
-
     Arvore *arv = new Arvore;
 
-    status = readFile(arvore, "arquivo.txt");
-    //Teste de abertura de arquivo
-    if (!status) {
-        cout << "Arquivo não pode ser aberto para leitura." << endl;
-        cout << "Programa terminando..." << endl;
+    //Controle de arquivo (Abrindo arquivo e fazendo sua leitura)
+    int control = 1; // 0 for test read file, 1 for manual insertion
+    if (control) {
+        arv->Insere(15);
+        arv->Insere(7);
+        arv->Insere(30);
+        arv->Insere(30);
+        arv->Insere(31);
+        arv->Insere(29);
+        arv->Insere(1);
+        arv->Insere(2);
+        arv->Insere(5);
+        arv->Insere(8);
+        arv->Insere(4);
+        cout << arv->Remove(15) << " ";
+        //    cout << arv->Busca(16) << " ";
+        arv->Insere(99);
     } else {
-        //Leitura do arquivo
-        while (!arvore.eof()) {
-            arvore >> op;
-            switch (op) {
-                    //inserir, remover, buscar e estado
-                case 'i':
-                {
-                    arvore >> tam;
-                    for (int i = 0; i < tam; i++) {
-                        if (i == 0) {
-                            arvore >> dado;
-                            arv->raiz = new No(dado);
-                        } else {
-                            arvore >> dado;
-                            arv->Insere(dado);
+        ofstream outFile;
+        ifstream arvore;
+        bool status;
+        int tam = 0;
+        char op;
+        int dado;
+
+        status = readFile(arvore, "arquivo.txt");
+        //Teste de abertura de arquivo
+        if (!status) {
+            cout << "Arquivo não pode ser aberto para leitura." << endl;
+            cout << "Programa terminando..." << endl;
+        } else {
+            //Leitura do arquivo
+            while (!arvore.eof()) {
+                arvore >> op;
+                switch (op) {
+                        //inserir, remover, buscar e estado
+                    case 'i':
+                    {
+                        arvore >> tam;
+                        for (int i = 0; i < tam; i++) {
+                            if (i == 0) {
+                                arvore >> dado;
+                                arv->raiz = new No(dado);
+                                cout << dado;
+                            } else {
+                                arvore >> dado;
+                                arv->Insere(dado);
+                                cout << dado;
+                            }
+
                         }
+                        break;
                     }
-                    break;
-                }
-                case 'r':
-                    break;
-                case 'b':
-                {
-                    arvore >> tam;
-                    for (int i = 0; i < tam; i++) {
+                    case 'r':
+                        break;
+                    case 'b':
+                    {
+                        arvore >> tam;
+                        for (int i = 0; i < tam; i++) {
                             arvore >> dado;
                             cout << arv->Busca(dado) << " ";
+                        }
+                        break;
                     }
+                    case 'e':
+                        break;
+                    default:
                         break;
                 }
-                case 'e':
-                    break;
-                default:
-                    break;
             }
         }
     }
-return 0;
+    arv->Pos_Ordem();
+    return 0;
 }
 
