@@ -64,7 +64,9 @@ No * Arvore::Captura_Maximo() {
 
 No::No(int valor) {
     dado = valor;
+    fb = 0;
     esq = NULL;
+    pai = NULL;
     dir = NULL;
 }
 
@@ -72,14 +74,45 @@ No::~No() {
 
 }
 
-No * No::Insere(No *raiz, No * n) {
-    if (raiz == NULL)
+No No::RotacaoDir(No *n){
+    
+}
+
+No No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
+    if (lado == 1){
+        if (n->fb == 0){
+            n->fb = 1;
+            return n;
+        }else if (n->fb == 1){
+            
+        }else if (n->fb == -1){
+            n->fb = 0;
+            return n;
+        }
+    }else{ 
+        if (n->fb == 0){
+            n->fb = -1;
+            return n;
+        }else if (n->fb == 1){
+            n->fb = 0;
+            return n;
+        }else if (n->fb == -1){
+        }
+    }
+}
+
+No * No::Insere(No *currentNode, No * n) {
+    if (currentNode == NULL)
         return n;
-    if (raiz->dado > n->dado)
-        raiz->esq = Insere(raiz->esq, n);
-    else
-        raiz->dir = Insere(raiz->dir, n);
-    return raiz;
+    if (currentNode->dado > n->dado){
+        currentNode->esq = Insere(currentNode->esq, n);
+        currentNode = currentNode->RegulaFB(currentNode, 1);
+    }
+    else{
+        currentNode->dir = Insere(currentNode->dir, n);
+        currentNode = currentNode->RegulaFB(currentNode, 2);
+    }
+    return currentNode;
 }
 
 void No::Pre_Ordem(No *raiz) {
