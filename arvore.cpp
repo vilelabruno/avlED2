@@ -74,17 +74,33 @@ No::~No() {
 
 }
 
-No No::RotacaoDir(No *n){
-    
+No * No::RotacaoDir(No *n){
+    No *r = n->esq;
+    n->esq = r->dir;
+    r->dir = n;
+    return r;
 }
 
-No No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
+No * No::RotacaoEsq(No *n){
+    No *r = n->dir;
+    n->dir = r->esq;
+    r->esq = n;
+    return r;
+}
+
+No * No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
     if (lado == 1){
         if (n->fb == 0){
             n->fb = 1;
             return n;
-        }else if (n->fb == 1){
-            
+        }else if (n->fb == 1){//dir ou esq-dir
+            if (n->esq->fb == 1){
+                n = RotacaoDir(n);
+            }else if(n->esq->fb == -1){
+                n->esq = RotacaoEsq(n->esq);
+                n = RotacaoDir(n);
+            }
+            return n;
         }else if (n->fb == -1){
             n->fb = 0;
             return n;
@@ -97,6 +113,13 @@ No No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
             n->fb = 0;
             return n;
         }else if (n->fb == -1){
+            if (n->esq->fb == 1){
+                n = RotacaoEsq(n);
+            }else if(n->esq->fb == -1){
+                n->esq = RotacaoEsq(n->esq);
+                n = RotacaoDir(n);
+            }
+            return n;
         }
     }
 }
@@ -106,11 +129,11 @@ No * No::Insere(No *currentNode, No * n) {
         return n;
     if (currentNode->dado > n->dado){
         currentNode->esq = Insere(currentNode->esq, n);
-        currentNode = currentNode->RegulaFB(currentNode, 1);
+        currentNode = RegulaFB(currentNode, 1);
     }
     else{
         currentNode->dir = Insere(currentNode->dir, n);
-        currentNode = currentNode->RegulaFB(currentNode, 2);
+        currentNode = RegulaFB(currentNode, 2);
     }
     return currentNode;
 }
