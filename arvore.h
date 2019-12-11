@@ -26,8 +26,9 @@ public:
     void Pre_Ordem(No *raiz);
     void Pos_Ordem(No *raiz);
     void Em_Ordem(No *raiz);
-    No No::RegulaFB(No *n, int lado);
-    No No::RotacaoDir(No *n);
+    No *RegulaFB(No *n, int lado);
+    No *RotacaoDir(No *n);
+    No *RotacaoEsq(No *n);
     bool Busca(int valor, No *raiz);
     No *Captura_Maximo(No *raiz);
     bool Remove(int valor, No *raiz, No *pai);

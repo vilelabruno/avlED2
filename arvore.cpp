@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-#include<cstdlib>
-#include<fstream>
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <stdbool.h>
 #include <string>
