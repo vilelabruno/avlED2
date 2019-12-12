@@ -82,17 +82,25 @@ No * No::RotacaoDir(No *n) {
     No *r = n->esq;
     n->esq = r->dir;
     r->dir = n;
-
-    if (Altura(n->esq) > Altura(n->dir)) {
-        n->altura = n->esq->altura + 1;
-    } else {
-        n->altura = n->dir->altura + 1;
+    
+    if(!n->esq && !n->esq){
+        n->altura = 0;
+    }else{
+        if (Altura(n->esq) > Altura(n->dir)) {
+            n->altura = n->esq->altura + 1;
+        } else {
+            n->altura = n->dir->altura + 1;
+        }
     }
 
-    if (Altura(r->esq) > Altura(r->dir)) {
-        r->altura = r->esq->altura + 1;
-    } else {
-        r->altura = r->dir->altura + 1;
+    if(!r->esq && !r->esq){
+        r->altura = 0;
+    }else{
+        if (Altura(r->esq) > Altura(r->dir)) {
+            r->altura = r->esq->altura + 1;
+        } else {
+            r->altura = r->dir->altura + 1;
+        }
     }
     return r;
 }
@@ -101,6 +109,26 @@ No * No::RotacaoEsq(No *n) {
     No *r = n->dir;
     n->dir = r->esq;
     r->esq = n;
+        
+    if(!n->esq && !n->esq){
+        n->altura = 0;
+    }else{
+        if (Altura(n->esq) > Altura(n->dir)) {
+            n->altura = n->esq->altura + 1;
+        } else {
+            n->altura = n->dir->altura + 1;
+        }
+    }
+
+    if(!r->esq && !r->esq){
+        r->altura = 0;
+    }else{
+        if (Altura(r->esq) > Altura(r->dir)) {
+            r->altura = r->esq->altura + 1;
+        } else {
+            r->altura = r->dir->altura + 1;
+        }
+    }
     return r;
 }
 
@@ -155,7 +183,7 @@ No * No::Insere(No *curr, No * n) {
             if (n->dado < curr->esq->dado) {
                 curr = RotacaoDir(curr);
             } else {
-                curr = RotacaoEsq(curr);
+                curr->esq = RotacaoEsq(curr->esq);
                 curr = RotacaoDir(curr);
 
             }
@@ -163,6 +191,19 @@ No * No::Insere(No *curr, No * n) {
         //        curr = RegulaFB(curr, 1);
     } else { // inserção a direita
         curr->dir = Insere(curr->dir, n);
+        int altura_dir = !curr->dir ? 0 : (curr->dir->altura + 1);
+        int altura_esq = !curr->esq ? 0 : (curr->esq->altura + 1);
+
+
+        if ((altura_dir - altura_esq) == 2) {
+            if (n->dado > curr->dir->dado) {
+                curr = RotacaoEsq(curr);
+            } else {
+                curr->dir = RotacaoDir(curr->dir);
+                curr = RotacaoEsq(curr);
+
+            }
+        }
         //        curr = RegulaFB(curr, 2);
     }
     if (curr->esq == NULL) {
