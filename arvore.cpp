@@ -43,7 +43,7 @@ void Arvore::Insere(int valor) {
     }
     if (!Busca(valor)) {
         qtde++;
-        raiz->Insere(raiz, n);
+        raiz = raiz->Insere(raiz, n);
     }
 }
 
@@ -65,6 +65,7 @@ No * Arvore::Captura_Maximo() {
 No::No(int valor) {
     dado = valor;
     fb = 0;
+    height = 1;
     esq = NULL;
     pai = NULL;
     dir = NULL;
@@ -96,9 +97,11 @@ No * No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
         }else if (n->fb == 1){//dir ou esq-dir
             if (n->esq->fb == 1){
                 n = RotacaoDir(n);
+                n->fb = 0;
             }else if(n->esq->fb == -1){
                 n->esq = RotacaoEsq(n->esq);
                 n = RotacaoDir(n);
+                n->fb = 0;
             }
             return n;
         }else if (n->fb == -1){
@@ -135,6 +138,7 @@ No * No::Insere(No *currentNode, No * n) {
         currentNode->dir = Insere(currentNode->dir, n);
         currentNode = RegulaFB(currentNode, 2);
     }
+    currentNode->height = currentNode->height + 1;
     return currentNode;
 }
 
