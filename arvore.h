@@ -33,7 +33,7 @@ public:
     No *Captura_Maximo(No *raiz);
     bool Remove(int valor, No *raiz, No *pai);
     No *Insere(No *raiz, No *n);
-    int dado, fb;
+    int dado, altura;
     No *esq, *dir, *pai;
 };
 

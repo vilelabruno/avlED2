@@ -29,18 +29,21 @@ int main(int argc, char** argv) {
     //Controle de arquivo (Abrindo arquivo e fazendo sua leitura)
     int control = 1; // 0 for test read file, 1 for manual insertion
     if (control) {
-        arv->Insere(15);
-        arv->Insere(7);
-        arv->Insere(30);
-        arv->Insere(30);
-        arv->Insere(31);
-        arv->Insere(29);
-        arv->Insere(1);
+        arv->Insere(3);
         arv->Insere(2);
-        arv->Insere(5);
-        arv->Insere(8);
-        arv->Insere(4);
-        cout << arv->Remove(15) << " ";
+        arv->Insere(1);
+//        arv->Insere(15);
+//        arv->Insere(7);
+//        arv->Insere(30);
+//        arv->Insere(30);
+//        arv->Insere(31);
+//        arv->Insere(29);
+//        arv->Insere(1);
+//        arv->Insere(2);
+//        arv->Insere(5);
+//        arv->Insere(8);
+//        arv->Insere(4);
+//        cout << arv->Remove(15) << " ";
         //    cout << arv->Busca(16) << " ";
         arv->Insere(99);
     } else {

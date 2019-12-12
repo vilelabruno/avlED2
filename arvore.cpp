@@ -64,8 +64,7 @@ No * Arvore::Captura_Maximo() {
 
 No::No(int valor) {
     dado = valor;
-    fb = 0;
-    height = 1;
+    altura = 0;
     esq = NULL;
     pai = NULL;
     dir = NULL;
@@ -75,71 +74,107 @@ No::~No() {
 
 }
 
-No * No::RotacaoDir(No *n){
+int Altura(No *n) {
+    return n == NULL ? -1 : n->altura;
+}
+
+No * No::RotacaoDir(No *n) {
     No *r = n->esq;
     n->esq = r->dir;
     r->dir = n;
+
+    if (Altura(n->esq) > Altura(n->dir)) {
+        n->altura = n->esq->altura + 1;
+    } else {
+        n->altura = n->dir->altura + 1;
+    }
+
+    if (Altura(r->esq) > Altura(r->dir)) {
+        r->altura = r->esq->altura + 1;
+    } else {
+        r->altura = r->dir->altura + 1;
+    }
     return r;
 }
 
-No * No::RotacaoEsq(No *n){
+No * No::RotacaoEsq(No *n) {
     No *r = n->dir;
     n->dir = r->esq;
     r->esq = n;
     return r;
 }
 
-No * No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
-    if (lado == 1){
-        if (n->fb == 0){
-            n->fb = 1;
-            return n;
-        }else if (n->fb == 1){//dir ou esq-dir
-            if (n->esq->fb == 1){
-                n = RotacaoDir(n);
-                n->fb = 0;
-            }else if(n->esq->fb == -1){
-                n->esq = RotacaoEsq(n->esq);
-                n = RotacaoDir(n);
-                n->fb = 0;
-            }
-            return n;
-        }else if (n->fb == -1){
-            n->fb = 0;
-            return n;
-        }
-    }else{ 
-        if (n->fb == 0){
-            n->fb = -1;
-            return n;
-        }else if (n->fb == 1){
-            n->fb = 0;
-            return n;
-        }else if (n->fb == -1){
-            if (n->esq->fb == 1){
-                n = RotacaoEsq(n);
-            }else if(n->esq->fb == -1){
-                n->esq = RotacaoEsq(n->esq);
-                n = RotacaoDir(n);
-            }
-            return n;
-        }
-    }
-}
+//No * No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
+//    if (lado == 1){
+//        if (n->fb == 0){
+//            n->fb = 1;
+//            return n;
+//        }else if (n->fb == 1){//dir ou esq-dir
+//            if (n->esq->fb == 1){
+//                n = RotacaoDir(n);
+//                n->fb = 0;
+//            }else if(n->esq->fb == -1){
+//                n->esq = RotacaoEsq(n->esq);
+//                n = RotacaoDir(n);
+//                n->fb = 0;
+//            }
+//            return n;
+//        }else if (n->fb == -1){
+//            n->fb = 0;
+//            return n;
+//        }
+//    }else{ 
+//        if (n->fb == 0){
+//            n->fb = -1;
+//            return n;
+//        }else if (n->fb == 1){
+//            n->fb = 0;
+//            return n;
+//        }else if (n->fb == -1){
+//            if (n->esq->fb == 1){
+//                n = RotacaoEsq(n);
+//            }else if(n->esq->fb == -1){
+//                n->esq = RotacaoEsq(n->esq);
+//                n = RotacaoDir(n);
+//            }
+//            return n;
+//        }
+//    }
+//}
 
-No * No::Insere(No *currentNode, No * n) {
-    if (currentNode == NULL)
+No * No::Insere(No *curr, No * n) {
+    if (curr == NULL)
         return n;
-    if (currentNode->dado > n->dado){
-        currentNode->esq = Insere(currentNode->esq, n);
-        currentNode = RegulaFB(currentNode, 1);
+    if (curr->dado > n->dado) { // inserção a esquerda
+        curr->esq = Insere(curr->esq, n);
+        int altura_dir = !curr->dir ? 0 : (curr->dir->altura + 1);
+        int altura_esq = !curr->esq ? 0 : (curr->esq->altura + 1);
+
+
+        if ((altura_esq - altura_dir) == 2) {
+            if (n->dado < curr->esq->dado) {
+                curr = RotacaoDir(curr);
+            } else {
+                curr = RotacaoEsq(curr);
+                curr = RotacaoDir(curr);
+
+            }
+        }
+        //        curr = RegulaFB(curr, 1);
+    } else { // inserção a direita
+        curr->dir = Insere(curr->dir, n);
+        //        curr = RegulaFB(curr, 2);
     }
-    else{
-        currentNode->dir = Insere(currentNode->dir, n);
-        currentNode = RegulaFB(currentNode, 2);
+    if (curr->esq == NULL) {
+        curr->altura = curr->dir->altura + 1;
+    } else if (curr->dir == NULL) {
+        curr->altura = curr->esq->altura + 1;
+    } else if (curr->esq->altura > curr->dir->altura) {
+        curr->altura = curr->esq->altura + 1;
+    } else {
+        curr->altura = curr->dir->altura + 1;
     }
-    currentNode->height = currentNode->height + 1;
-    return currentNode;
+    return curr;
 }
 
 void No::Pre_Ordem(No *raiz) {
