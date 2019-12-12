@@ -25,13 +25,14 @@ public:
     ~No(); //Destrutor
     void Pre_Ordem(No *raiz);
     void Pos_Ordem(No *raiz);
+    int QtdFolhas(No *raiz);
     void Em_Ordem(No *raiz);
     No *RegulaFB(No *n, int lado);
     No *RotacaoDir(No *n);
     No *RotacaoEsq(No *n);
     bool Busca(int valor, No *raiz);
     No *Captura_Maximo(No *raiz);
-    bool Remove(int valor, No *raiz, No *pai);
+    No *Remove(int valor, No *raiz, No *pai);
     No *Insere(No *raiz, No *n);
     int dado, altura;
     No *esq, *dir, *pai;
@@ -43,13 +44,14 @@ public:
     ~Arvore();
     void Pre_Ordem();
     void Pos_Ordem();
+    void Estado();
     void Em_Ordem();
     void Insere(int valor);
     bool Busca(int valor);
     bool Remove(int valor);
     No *Captura_Maximo();
     No *raiz;
-    int qtde;
+    int qtde, folhas;
 };
 
 // =============== MANIPULAÇÃO DE ARQUIVOS================================================

@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
         arv->Insere(5);
         arv->Insere(8);
         arv->Insere(4);
-//        cout << arv->Remove(15) << " ";
+        cout << arv->Remove(15) << " ";
         //    cout << arv->Busca(16) << " ";
         arv->Insere(99);
     } else {
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
             }
         }
     }
-    arv->Pos_Ordem();
+    arv->Estado();
     return 0;
 }
 

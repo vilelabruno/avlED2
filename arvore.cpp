@@ -16,6 +16,7 @@ using namespace std;
 Arvore::Arvore() {
     raiz = NULL;
     qtde = 0;
+    folhas = 0;
 }
 
 Arvore::~Arvore() {
@@ -28,6 +29,14 @@ void Arvore::Pre_Ordem() {
 
 void Arvore::Pos_Ordem() {
     raiz->Pos_Ordem(raiz);
+}
+
+void Arvore::Estado() {
+    int qtdf = raiz->QtdFolhas(raiz);
+    cout << "quantidade de folhas: "<< qtdf << " ";
+    cout << "nivel: " << raiz->altura << " ";
+    cout << "nivel medio: " << raiz->altura/2 << " ";
+    cout << "nos intermediarios: "<< (qtde - qtdf) << " ";
 }
 
 void Arvore::Em_Ordem() {
@@ -53,7 +62,7 @@ bool Arvore::Busca(int valor) {
 
 bool Arvore::Remove(int valor) {
     if (raiz->Busca(valor, raiz)) {
-        return raiz->Remove(valor, raiz, NULL);
+        raiz = raiz->Remove(valor, raiz, NULL);
     }
     return false;
 }
@@ -233,6 +242,16 @@ void No::Pos_Ordem(No *raiz) {
         cout << raiz->dado << " ";
     }
 }
+int No::QtdFolhas(No *n)  
+{  
+    if(n == NULL)      
+        return 0;  
+    if(n->esq == NULL && n->dir == NULL)  
+        return 1;          
+    else
+        return QtdFolhas(n->esq)+  
+            QtdFolhas(n->dir);  
+}  
 
 void No::Em_Ordem(No *raiz) {
     if (raiz) {
@@ -264,65 +283,62 @@ No *No::Captura_Maximo(No* raiz) {
 
 }
 
-bool No::Remove(int valor, No *raiz, No *pai) {
+No *No::Remove(int valor, No *raiz, No *pai) {
     if (raiz == NULL) {
-        return false;
+        return NULL;
     }
     if (valor == raiz->dado) {
         No *aux = raiz;
-        if (raiz->esq == NULL || raiz->dir == NULL) {
+        if (raiz->esq == NULL && raiz->dir == NULL) {
+            return NULL;
+        }else if (raiz->esq == NULL || raiz->dir == NULL) {
             //delete one child
-            if (raiz->esq == NULL && raiz->dir == NULL) {
-                // nao tem filho
-                if (raiz->dado > pai->dado) {
-                    // filho dir
-                    pai->dir = NULL;
-                    free(raiz);
-                } else {
-                    // filho esq
-                    pai->esq = NULL;
-                    free(raiz);
-                }
-                return true;
-            } else if (raiz->dir == NULL) {
+            if (raiz->dir == NULL) {
                 // tem um filho a esquerda
-                if (raiz->dado > pai->dado) {
-                    // filho dir
-                    pai->dir = raiz->esq;
-                    free(raiz);
-                } else {
-                    // filho esq
-                    pai->esq = raiz->esq;
-                    free(raiz);
-                }
-                return true;
+                raiz = raiz->esq;
             } else if (raiz->esq == NULL) {
-                // tem um filho a direita
-                if (raiz->dado > pai->dado) {
-                    // filho dir
-                    pai->dir = raiz->dir;
-                    free(raiz);
-                } else {
-                    // filho esq
-                    pai->esq = raiz->dir;
-                    free(raiz);
-                }
-                return true;
+                raiz = raiz->dir;
             }
         } else {
             //TODO problema qdo no for raiz da arv
             // tem dois filhos
             aux = Captura_Maximo(raiz->esq); // TEM QUE VE ESSA PORRA
             raiz->dado = aux->dado;
-            raiz->esq->Remove(aux->dado, raiz->esq, raiz);
+            raiz->esq = raiz->esq->Remove(aux->dado, raiz->esq, raiz);
             free(aux);
-            return true;
+            //return true;
         }
     } else if (valor < raiz->dado) {
-        return Remove(valor, raiz->esq, raiz);
+        raiz->esq = Remove(valor, raiz->esq, raiz);
     } else {
-        return Remove(valor, raiz->dir, raiz);
+        raiz->dir = Remove(valor, raiz->dir, raiz);
     }
+    if (raiz == NULL) return raiz;
+    if (Altura(raiz->esq) > Altura(raiz->dir) ) {
+        raiz->altura = Altura(raiz->esq) + 1;
+    } else {
+        raiz->altura = Altura(raiz->dir) + 1;
+    }
+    int altura_dir = !raiz->dir ? 0 : (raiz->dir->altura + 1);
+    int altura_esq = !raiz->esq ? 0 : (raiz->esq->altura + 1);
+
+
+    if ((altura_esq - altura_dir) == 2) {
+        if ((Altura(raiz->esq->esq) - Altura(raiz->esq->dir)) == 1) {
+            raiz = RotacaoEsq(raiz);
+        } else {
+            raiz->dir = RotacaoDir(raiz->dir);
+            raiz = RotacaoEsq(raiz);
+        }
+    }else if ((altura_dir - altura_esq) == 2) {
+        if ((Altura(raiz->dir->dir) - Altura(raiz->dir->esq)) == 1) {
+            raiz = RotacaoDir(raiz);
+        } else {
+            raiz->esq = RotacaoEsq(raiz->esq);
+            raiz = RotacaoDir(raiz);
+        }
+    }
+    return raiz;
 }
 
 
