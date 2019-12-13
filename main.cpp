@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
         char op;
         int valor;
 
-        status = readFile(dados, "arquivo1.txt");
+        status = readFile(dados, "arquivo2.txt");
         //Teste de abertura de arquivo
         if (!status) {
             cout << "Arquivo não pode ser aberto para leitura." << endl;

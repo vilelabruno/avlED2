@@ -12,7 +12,7 @@
 #include"arvore.h"
 
 using namespace std;
-
+int rotacao = 0;
 Arvore::Arvore() {
     raiz = NULL;
     qtde = 0;
@@ -54,6 +54,7 @@ void Arvore::Estado() {
     cout << "Nivel maximo                       : " << raiz->altura << endl;
     cout << "Nivel medio(maximo/2)              : " << raiz->altura / 2 << endl;
     cout << "Nos intermediarios(excluso a raiz) : " << (qtde - qtdf - 1) << endl;
+    cout << "Rotacoes : " << rotacao << endl;
     cout << "_____________________________________________________" << endl;
 }
 
@@ -80,7 +81,6 @@ bool Arvore::Busca(int valor) {
 
 bool Arvore::Remove(int valor) {
     if (raiz->Busca(valor, raiz)) {
-       
         raiz = raiz->Remove(valor, raiz, NULL);
         return true;
     }
@@ -131,6 +131,7 @@ No * No::RotacaoDir(No *n) {
             r->altura = r->dir->altura + 1;
         }
     }
+    rotacao++;
     return r;
 }
 
@@ -158,6 +159,7 @@ No * No::RotacaoEsq(No *n) {
             r->altura = r->dir->altura + 1;
         }
     }
+    rotacao++;
     return r;
 }
 
