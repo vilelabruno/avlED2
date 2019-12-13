@@ -80,6 +80,7 @@ bool Arvore::Busca(int valor) {
 
 bool Arvore::Remove(int valor) {
     if (raiz->Busca(valor, raiz)) {
+       
         raiz = raiz->Remove(valor, raiz, NULL);
         return true;
     }
@@ -307,14 +308,14 @@ No *No::Remove(int valor, No *raiz, No *pai) {
         if ((Altura(raiz->esq->esq) - Altura(raiz->esq->dir)) == 1) {
             raiz = RotacaoEsq(raiz);
         } else {
-            raiz->dir = RotacaoDir(raiz->dir);
+            raiz->esq = RotacaoDir(raiz->esq);
             raiz = RotacaoEsq(raiz);
         }
     }else if ((altura_dir - altura_esq) == 2) {
         if ((Altura(raiz->dir->dir) - Altura(raiz->dir->esq)) == 1) {
             raiz = RotacaoDir(raiz);
         } else {
-            raiz->esq = RotacaoEsq(raiz->esq);
+            raiz->dir = RotacaoEsq(raiz->dir);
             raiz = RotacaoDir(raiz);
         }
     }

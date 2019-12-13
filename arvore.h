@@ -6,7 +6,6 @@
 
 /* 
  * File:   arvore.h
- * Author: 2019.1.08.041
  *
  * Created on 31 de Outubro de 2019, 16:16
  */
