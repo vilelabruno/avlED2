@@ -31,12 +31,30 @@ void Arvore::Pos_Ordem() {
     raiz->Pos_Ordem(raiz);
 }
 
+void atualiza_altura(No * n) {
+    int alt1 = n->esq ? n->esq->altura : 0;
+    int alt2 = n->dir ? n->dir->altura : 0;
+    n->altura = alt1 > alt2 ? alt1 + 1 : alt2 + 1;
+}
+
+void pre_ordem_altura(No *n) {
+    if (n) {
+        pre_ordem_altura(n->esq);
+        pre_ordem_altura(n->dir);
+        atualiza_altura(n);
+    }
+}
+
 void Arvore::Estado() {
     int qtdf = raiz->QtdFolhas(raiz);
-    cout << "quantidade de folhas: "<< qtdf << " ";
-    cout << "nivel: " << raiz->altura << " ";
-    cout << "nivel medio: " << raiz->altura/2 << " ";
-    cout << "nos intermediarios: "<< (qtde - qtdf) << " ";
+    cout << "_____________________________________________________" << endl;
+    cout << endl << "Estado da arvore:" << endl << endl;
+    cout << "Folhas                             : " << qtdf << endl;
+    pre_ordem_altura(raiz);
+    cout << "Nivel maximo                       : " << raiz->altura << endl;
+    cout << "Nivel medio(maximo/2)              : " << raiz->altura / 2 << endl;
+    cout << "Nos intermediarios(excluso a raiz) : " << (qtde - qtdf - 1) << endl;
+    cout << "_____________________________________________________" << endl;
 }
 
 void Arvore::Em_Ordem() {
@@ -142,44 +160,6 @@ No * No::RotacaoEsq(No *n) {
     return r;
 }
 
-//No * No::RegulaFB(No *n, int lado){ // 1 esq 2 dir
-//    if (lado == 1){
-//        if (n->fb == 0){
-//            n->fb = 1;
-//            return n;
-//        }else if (n->fb == 1){//dir ou esq-dir
-//            if (n->esq->fb == 1){
-//                n = RotacaoDir(n);
-//                n->fb = 0;
-//            }else if(n->esq->fb == -1){
-//                n->esq = RotacaoEsq(n->esq);
-//                n = RotacaoDir(n);
-//                n->fb = 0;
-//            }
-//            return n;
-//        }else if (n->fb == -1){
-//            n->fb = 0;
-//            return n;
-//        }
-//    }else{ 
-//        if (n->fb == 0){
-//            n->fb = -1;
-//            return n;
-//        }else if (n->fb == 1){
-//            n->fb = 0;
-//            return n;
-//        }else if (n->fb == -1){
-//            if (n->esq->fb == 1){
-//                n = RotacaoEsq(n);
-//            }else if(n->esq->fb == -1){
-//                n->esq = RotacaoEsq(n->esq);
-//                n = RotacaoDir(n);
-//            }
-//            return n;
-//        }
-//    }
-//}
-
 No * No::Insere(No *curr, No * n) {
     if (curr == NULL)
         return n;
@@ -214,7 +194,6 @@ No * No::Insere(No *curr, No * n) {
 
             }
         }
-        //        curr = RegulaFB(curr, 2);
     }
     if (curr->esq == NULL) {
         curr->altura = curr->dir->altura + 1;
