@@ -41,9 +41,10 @@ int main(int argc, char** argv) {
         arv->Insere(1);
         arv->Insere(2);
         arv->Insere(5);
-            arv->Insere(8);
+        arv->Insere(8);
         arv->Insere(4);
         cout << arv->Remove(15) << " ";
+        cout << arv->Remove(8) << " ";
         //    cout << arv->Busca(16) << " ";
         arv->Insere(99);
     } else {
@@ -102,6 +103,8 @@ int main(int argc, char** argv) {
         }
     }
     arv->Estado();
+    cout << "\n";
+    arv->Pos_Ordem();
     return 0;
 }
 

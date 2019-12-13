@@ -320,8 +320,8 @@ No *No::Remove(int valor, No *raiz, No *pai) {
     } else {
         raiz->altura = Altura(raiz->dir) + 1;
     }
-    int altura_dir = !raiz->dir ? 0 : (raiz->dir->altura + 1);
-    int altura_esq = !raiz->esq ? 0 : (raiz->esq->altura + 1);
+    int altura_dir = !raiz->dir ? 0 : (raiz->dir->altura);
+    int altura_esq = !raiz->esq ? 0 : (raiz->esq->altura);
 
 
     if ((altura_esq - altura_dir) == 2) {
