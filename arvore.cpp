@@ -63,6 +63,7 @@ bool Arvore::Busca(int valor) {
 bool Arvore::Remove(int valor) {
     if (raiz->Busca(valor, raiz)) {
         raiz = raiz->Remove(valor, raiz, NULL);
+        return true;
     }
     return false;
 }

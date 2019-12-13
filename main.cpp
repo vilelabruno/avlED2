@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
         arv->Insere(1);
         arv->Insere(2);
         arv->Insere(5);
-        arv->Insere(8);
+            arv->Insere(8);
         arv->Insere(4);
         cout << arv->Remove(15) << " ";
         //    cout << arv->Busca(16) << " ";
